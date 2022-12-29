@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Structures/Energy/PowerPlant")]
-public class PowerPlantSO : StructureDataSO
+public class PowerPlantSO : PlacedObjectDataSO
 {
     /*
     public override GameObject InstantiateStructure(Vector3 pos)

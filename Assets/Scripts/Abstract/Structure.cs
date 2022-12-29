@@ -12,5 +12,5 @@ public abstract class Structure : MonoBehaviour
 
     public abstract StructureType GetStructureType();
 
-    protected StructureDataSO structureData;
+    //protected StructureDataSO structureData;
 }

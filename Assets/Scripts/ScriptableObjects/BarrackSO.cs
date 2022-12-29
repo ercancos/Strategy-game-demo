@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Structures/Military/Barrack")]
-public class BarrackSO : StructureDataSO
+public class BarrackSO : PlacedObjectDataSO
 {
     /*
     public override GameObject InstantiateStructure(Vector3 pos)

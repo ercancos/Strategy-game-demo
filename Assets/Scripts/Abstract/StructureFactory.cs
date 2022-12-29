@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class StructureFactory : MonoBehaviour
 {
     [SerializeField]
-    protected StructureDataSO structureData;
+    protected PlacedObjectDataSO structureData;
 
     //Create a structure depending on the concrete-class factory implementation.
     public abstract GameObject CreateStructure(Vector2 pos);

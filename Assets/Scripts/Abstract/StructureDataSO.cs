@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class StructureDataSO : ScriptableObject
+public abstract class PlacedObjectDataSO : ScriptableObject
 {
     [SerializeField]
     protected Sprite sprite;
