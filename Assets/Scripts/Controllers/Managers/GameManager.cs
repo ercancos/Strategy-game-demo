@@ -26,13 +26,11 @@ public class GameManager : MonoBehaviour
     public void CreateBarrack()
     {
         StructureBuildController.Instance.TakeStructureToBuilt(PoolManager.Instance.GetStructureObject("BarrackType1"));
-        Debug.Log("Barrack created.");
     }
 
     public void CreatePowerPlant()
     {
         StructureBuildController.Instance.TakeStructureToBuilt(PoolManager.Instance.GetStructureObject("PowerPlant"));
-        Debug.Log("PowerPlant created.");
     }
 
     public void CreateSoldier()
@@ -58,14 +56,14 @@ public class GameManager : MonoBehaviour
         StructureBuildController.OnStructureBuildAction += UpdateAStar;
     }
 
-    private void UpdateAStar()
-    {
-        astarPath.Scan();
-    }
-
     private void OnDestroy()
     {
         StructureBuildController.OnStructureBuildAction -= UpdateAStar;
+    }
+
+    private void UpdateAStar()
+    {
+        astarPath.Scan();
     }
 
 }

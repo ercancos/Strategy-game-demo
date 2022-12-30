@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f68f87a0e14a34fb0e27505e5b9b3e, type: 3}
   m_Name: PowerPlant
   m_EditorClassIdentifier: 
+  visualTextName: PowerPlant
   sprite: {fileID: 21300000, guid: 6ca35509c7809fb4cb1a17a9eb67856d, type: 3}
   width: 2
   height: 3

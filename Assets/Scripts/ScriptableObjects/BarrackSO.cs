@@ -5,16 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Structures/Military/Barrack")]
 public class BarrackSO : PlacedObjectDataSO
 {
-    /*
-    public override GameObject InstantiateStructure(Vector3 pos)
-    {
-        GameObject createdObject = Instantiate(new GameObject(), pos, Quaternion.identity);
-        createdObject.AddComponent<SpriteRenderer>();
-        createdObject.AddComponent<Rigidbody2D>();
-        createdObject.AddComponent<BoxCollider2D>();
-        createdObject.transform.localScale = new Vector3(width, height, 1);
 
-        return createdObject;
-    }
-    */
 }

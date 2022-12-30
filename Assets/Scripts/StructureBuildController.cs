@@ -13,12 +13,16 @@ public class StructureBuildController : MonoBehaviour
 
     private bool _isStructureBuild = false;
     private GameObject _structure;
+    private SpriteRenderer _structureSpriteRenderer;
+    private Structure _structureBaseClass;
 
     #endregion
 
     public void TakeStructureToBuilt(GameObject structure)
     {
         _structure = structure;
+        _structureSpriteRenderer = _structure.GetComponent<SpriteRenderer>();
+        _structureBaseClass = _structure.GetComponent<Structure>();
     }
 
     private void Awake()
@@ -40,11 +44,6 @@ public class StructureBuildController : MonoBehaviour
         PlayerInteractionController.OnMouseMoveAction += DragStructure;
     }
 
-    private void Update()
-    {
-
-    }
-
     private void OnDestroy()
     {
         PlayerInteractionController.OnRightClickAction -= CancelBuild;
@@ -56,6 +55,7 @@ public class StructureBuildController : MonoBehaviour
     private void CancelBuild()
     {
         Debug.Log("Built canceled !");
+        PoolManager.Instance.RecycleObject(_structure);
         _structure = null;
     }
 
@@ -64,8 +64,20 @@ public class StructureBuildController : MonoBehaviour
         if (_structure != null)
         {
             _structure.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(currentMousePos);
-
-            //Debug.Log("Structure dragged.");
+            if (IsValidConstructionArea())
+            {
+                if (_structureSpriteRenderer != null)
+                {
+                    _structureSpriteRenderer.color = Color.green;
+                }
+            }
+            else
+            {
+                if (_structureSpriteRenderer != null)
+                {
+                    _structureSpriteRenderer.color = Color.red;
+                }
+            }
         }
     }
 
@@ -73,14 +85,35 @@ public class StructureBuildController : MonoBehaviour
     {
         if (_structure != null)
         {
-            _structure.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(currentMousePos);
-            _structure.GetComponent<BoxCollider2D>().isTrigger = false;
-            //Debug.Log("Built succesfully completed !");
-            _structure = null;
-            if (OnStructureBuildAction != null)
+            if (IsValidConstructionArea())
             {
-                OnStructureBuildAction();
+                _structure.transform.position = (Vector2)Camera.main.ScreenToWorldPoint(currentMousePos);
+                _structure.GetComponent<BoxCollider2D>().isTrigger = false;
+                if (_structureSpriteRenderer != null)
+                {
+                    _structureSpriteRenderer.color = Color.white;
+                }
+
+                _structure = null;
+                if (OnStructureBuildAction != null)
+                {
+                    OnStructureBuildAction();
+                }
             }
         }
+    }
+
+    private bool IsValidConstructionArea()
+    {
+        if (_structureBaseClass != null)
+        {
+            if (_structureBaseClass.IsOverlapToAnotherObject)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        return false;
     }
 }

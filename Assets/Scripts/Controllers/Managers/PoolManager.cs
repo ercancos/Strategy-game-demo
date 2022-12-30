@@ -57,7 +57,26 @@ public class PoolManager : MonoBehaviour
     //This function recycles the given object and puts it back in the pool.
     public void RecycleObject(GameObject obj)
     {
-
+        if (obj != null)
+        {
+            if (obj.CompareTag("Structure"))
+            {
+                RecycleStructure(obj);
+            }
+            else if (obj.CompareTag("Troop"))
+            {
+                RecycleTroop(obj);
+            }
+            else
+            {
+                Debug.LogWarning("Object could not identify. obj will be destroyed !");
+                Destroy(obj);
+            }
+        }
+        else
+        {
+            Debug.LogError("Recycle operation could not complete. obj is null !");
+        }
     }
 
     private void Awake()
@@ -122,7 +141,46 @@ public class PoolManager : MonoBehaviour
         _troopPoolDictionary["SoldierType1"].Enqueue(createdStructure);
     }
 
+    private void RecycleStructure(GameObject obj)
+    {
+        Structure structureType = obj.GetComponent<Structure>();
+        if (structureType != null)
+        {
+            if (structureType is Barrack)
+            {
+                obj.SetActive(false);
+                obj.transform.position = Vector3.zero;
+                _structurePoolDictionary["BarrackType1"].Enqueue(obj);
+            }
+            else if (structureType is PowerPlant)
+            {
+                obj.SetActive(false);
+                obj.transform.position = Vector3.zero;
+                _structurePoolDictionary["PowerPlant"].Enqueue(obj);
+            }
+            else
+            {
+                Debug.LogWarning("Object could not identify. obj will be destroyed !");
+                Destroy(obj);
+            }
+        }
+    }
 
+    private void RecycleTroop(GameObject obj)
+    {
+        Troop troopType = obj.GetComponent<Troop>();
+        if (troopType is Soldier)
+        {
+            obj.SetActive(false);
+            obj.transform.position = Vector3.zero;
+            _troopPoolDictionary["SoldierType1"].Enqueue(obj);
+        }
+        else
+        {
+            Debug.LogWarning("Object could not identify. obj will be destroyed !");
+            Destroy(obj);
+        }
+    }
 
 }
 
