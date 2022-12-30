@@ -13,6 +13,12 @@ public class PlayerInteractionController : MonoBehaviour
 
     public static PlayerInteractionController Instance;
 
+    public delegate void OnLeftClick(Vector3 currentPos);
+    public static event OnLeftClick OnLeftClickAction;
+
+    public delegate void OnRightClick();
+    public static event OnRightClick OnRightClickAction;
+
     public delegate void OnClickScroll();
     public static event OnClickScroll OnClickScrollAction;
 
@@ -25,6 +31,12 @@ public class PlayerInteractionController : MonoBehaviour
     private Vector2 _previousMousePosition;
 
     #endregion
+
+    public Vector2 GetLatestMousePos()
+    {
+        Debug.Log("_previousMousePosition : " + _previousMousePosition);
+        return _previousMousePosition;
+    }
 
     private void Awake()
     {
@@ -41,7 +53,8 @@ public class PlayerInteractionController : MonoBehaviour
     private void Start()
     {
         // Set previous mouse position on start.
-        _previousMousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        //_previousMousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        _previousMousePosition = Input.mousePosition;
     }
 
     // Update is called once per frame
@@ -69,12 +82,31 @@ public class PlayerInteractionController : MonoBehaviour
                 OnClickScrollAction();
             }
         }
+
+        // Check if middle mouse button(scroll) pressed.
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (OnLeftClickAction != null)
+            {
+                OnLeftClickAction(Input.mousePosition);
+            }
+        }
+
+        // Check if middle mouse button(scroll) pressed.
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (OnRightClickAction != null)
+            {
+                OnRightClickAction();
+            }
+        }
     }
 
     // This function checks whether mouse is move or not.
     private bool CheckIsMouseMove()
     {
-        Vector2 currentMousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        //Vector2 currentMousePosition = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+        Vector2 currentMousePosition = Input.mousePosition;
 
         // Check if the mouse has moved from its previous position.
         if (currentMousePosition != _previousMousePosition)
