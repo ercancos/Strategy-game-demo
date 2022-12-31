@@ -15,6 +15,7 @@ public class PlayerInteractionController : MonoBehaviour
 
     public delegate void OnLeftClick(Vector3 currentPos);
     public static event OnLeftClick OnLeftClickAction;
+    public static event OnLeftClick OnLeftClickReleaseAction;
 
     public delegate void OnRightClick();
     public static event OnRightClick OnRightClickAction;
@@ -89,6 +90,15 @@ public class PlayerInteractionController : MonoBehaviour
             if (OnLeftClickAction != null)
             {
                 OnLeftClickAction(Input.mousePosition);
+            }
+        }
+
+        // Check if middle mouse button(scroll) released.
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (OnLeftClickReleaseAction != null)
+            {
+                OnLeftClickReleaseAction(Input.mousePosition);
             }
         }
 
