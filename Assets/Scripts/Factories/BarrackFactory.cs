@@ -26,6 +26,9 @@ public class BarrackFactory : Factory
         //Add text object.
         AddTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 8.8f)), createdObject);
 
+        //Add spawn point.
+        CreateSpawnPointObject(createdObject);
+
         //Add Barrack component to the object.
         createdObject.AddComponent<Barrack>();
 
@@ -88,5 +91,20 @@ public class BarrackFactory : Factory
         //Set object position to top of parent object.
         textObject.transform.parent = parentObject.transform;
         textObject.transform.position = pos;
+    }
+
+    private void CreateSpawnPointObject(GameObject obj)
+    {
+        //Create a new gameobject.
+        GameObject createdObject = new GameObject("SpawnPoint");
+        createdObject.transform.parent = obj.transform;
+
+        createdObject.transform.position = new Vector3(
+        obj.transform.position.x,
+        obj.transform.position.y - 3f,
+        obj.transform.position.z);
+
+        SpriteRenderer spriteRenderer = createdObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = ((BarrackSO)objectData).SpawnPointIndicator;
     }
 }
