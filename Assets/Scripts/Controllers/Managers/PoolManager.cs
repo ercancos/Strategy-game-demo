@@ -34,6 +34,18 @@ public class PoolManager : MonoBehaviour
         if (!_structurePoolDictionary.ContainsKey(tag))
             return null;
 
+        if (_structurePoolDictionary[tag].Count <= 0)
+        {
+            if (tag == "BarrackType1")
+            {
+                SpawnBarrackType1();
+            }
+            else if (tag == "PowerPlant")
+            {
+                SpawnPowerPlant();
+            }
+        }
+
         GameObject structureObject = _structurePoolDictionary[tag].Dequeue();
         //Move object to latest mouse position.
         structureObject.transform.position = PlayerInteractionController.Instance.GetLatestMousePos();
@@ -49,8 +61,13 @@ public class PoolManager : MonoBehaviour
         if (!_troopPoolDictionary.ContainsKey(tag))
             return null;
 
-        GameObject troopObject = _structurePoolDictionary[tag].Dequeue();
-        troopObject.SetActive(true);
+        if (_troopPoolDictionary[tag].Count <= 0)
+        {
+            SpawnSoldierType1();
+        }
+
+        GameObject troopObject = _troopPoolDictionary[tag].Dequeue();
+        //troopObject.SetActive(true);
         return troopObject;
     }
 
