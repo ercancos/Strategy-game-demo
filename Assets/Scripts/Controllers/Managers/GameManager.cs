@@ -16,12 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AstarPath astarPath;
 
-
     #endregion
-
-    //Getter methods.
-    //..
-
 
     public void CreateBarrack()
     {
@@ -31,12 +26,6 @@ public class GameManager : MonoBehaviour
     public void CreatePowerPlant()
     {
         StructureBuildController.Instance.TakeStructureToBuilt(PoolManager.Instance.GetStructureObject("PowerPlant"));
-    }
-
-    public void CreateSoldier()
-    {
-
-        Debug.Log("Soldier created.");
     }
 
     private void Awake()

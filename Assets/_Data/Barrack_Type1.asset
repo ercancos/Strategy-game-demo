@@ -16,3 +16,4 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 9f36bc4bb2fc9d84e822864e9b1c51a8, type: 3}
   width: 4
   height: 4
+  spawnPointIndicator: {fileID: 21300000, guid: a9d50d39b1e589847a9ad5ff8f14687f, type: 3}

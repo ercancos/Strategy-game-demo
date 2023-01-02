@@ -56,7 +56,8 @@ public class UIController : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        Structure.OnStructureSelectedAction += AssignStructureToInfoPanel;
+        Troop.OnTroopSelectedAction += AssignTroopToInfoPanel;
     }
 
     // Start is called before the first frame update
@@ -67,17 +68,118 @@ public class UIController : MonoBehaviour
         AddListenerToPowerPlantButtons();
 
         //Set information panel to inactive
-        selectedObjectInformationPanel.SetActive(false);
+        SetStateSelectedObjectInformationPanel(false);
+        //Set button to inactive
+        SetStateSelectedObjectTroopButton(false);
     }
 
     private void OnDestroy()
     {
-        
+        Structure.OnStructureSelectedAction -= AssignStructureToInfoPanel;
+        Troop.OnTroopSelectedAction -= AssignTroopToInfoPanel;
     }
 
-    private void AssignSelectedObjectToInfoPanel()
+    /*
+    private void AssignSelectedObjectToInfoPanel(GameObject obj)
     {
+        if (obj != null)
+        {
+            if (obj.CompareTag("Structure"))
+            {
 
+            }
+            else if (obj.CompareTag("Troop"))
+            {
+
+            }
+            else
+            {
+                Debug.LogWarning("Object could not identify !");
+            }
+        }
+
+        selectedObjectInformationPanel.SetActive(true);
+    }
+    */
+
+    private void AssignStructureToInfoPanel(GameObject obj)
+    {
+        Structure structureType = obj.GetComponent<Structure>();
+        if (structureType != null)
+        {
+            if (structureType is Barrack)
+            {
+                AssignText("Barrack");
+                AssignSprite(obj.GetComponent<SpriteRenderer>().sprite);
+                AddListenerToSelectedObjectTroopButton(obj.GetComponent<Barrack>());
+                SetStateSelectedObjectTroopButton(true);
+            }
+            else if (structureType is PowerPlant)
+            {
+                SetStateSelectedObjectTroopButton(false);
+                AssignText("PowerPlant");
+                AssignSprite(obj.GetComponent<SpriteRenderer>().sprite);
+            }
+            else
+            {
+                Debug.LogWarning("Object could not identify !");
+            }
+
+            SetStateSelectedObjectInformationPanel(true);
+        }
+    }
+
+    private void AssignTroopToInfoPanel(GameObject obj)
+    {
+        Troop troopType = obj.GetComponent<Troop>();
+        if (troopType != null)
+        {
+            if (troopType is Soldier)
+            {
+                SetStateSelectedObjectTroopButton(false);
+                Debug.Log("Soldier");
+            }
+            else
+            {
+                Debug.LogWarning("Object could not identify !");
+            }
+
+            SetStateSelectedObjectInformationPanel(true);
+        }
+    }
+
+    private void AssignText(string text)
+    {
+        selectedObjectText.text = text;
+    }
+
+    private void AssignSprite(Sprite sprite)
+    {
+        if (sprite != null)
+        {
+            selectedObjectImage.sprite = sprite;
+        }
+    }
+
+    private void AddListenerToSelectedObjectTroopButton(Barrack barrack)
+    {
+        if (barrack != null)
+        {
+            Button button = selectedObjectTroopButton.GetComponent<Button>();
+            button.onClick.RemoveAllListeners();
+            button.onClick.AddListener(barrack.SpawnUnit);
+        }
+    }
+
+
+    private void SetStateSelectedObjectTroopButton(bool state)
+    {
+        selectedObjectTroopButton.SetActive(state);
+    }
+
+    private void SetStateSelectedObjectInformationPanel(bool state)
+    {
+        selectedObjectInformationPanel.SetActive(state);
     }
 
     //Adds a listener function to relevant button.

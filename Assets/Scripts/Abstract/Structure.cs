@@ -10,6 +10,9 @@ public abstract class Structure : MonoBehaviour
         Energy
     }
 
+    public delegate void OnStructureSelected(GameObject obj);
+    public static event OnStructureSelected OnStructureSelectedAction;
+
     protected bool _isOverlapToAnotherObject;
     protected GameObject _textObject;
 
@@ -50,6 +53,14 @@ public abstract class Structure : MonoBehaviour
         if (_textObject != null)
         {
             _textObject.SetActive(false);
+        }
+    }
+
+    protected virtual void OnMouseDown()
+    {
+        if (OnStructureSelectedAction != null)
+        {
+            OnStructureSelectedAction(this.gameObject);
         }
     }
 }
