@@ -11,20 +11,22 @@ using UnityEngine.UI;
 
 public class InfiniteScroll : MonoBehaviour
 {
+    #region Variables
+
     private ScrollRect _scrollRect;
     private ContentSizeFitter _contentSizeFitter;
     private VerticalLayoutGroup _verticalLayoutGroup;
-    protected bool _isVertical = false;
+    private bool _isVertical = false;
     private float _disableMarginY = 0;
     private bool _hasDisabledGridComponents = false;
-    protected List<RectTransform> items = new List<RectTransform>();
+    private List<RectTransform> items = new List<RectTransform>();
     private Vector2 _newAnchoredPosition = Vector2.zero;
-
-    //TO DISABLE FLICKERING OBJECT WHEN SCROLL VIEW IS IDLE IN BETWEEN OBJECTS
-    private float _threshold = 100f;
 
     private int _itemCount = 0;
     private float _recordOffsetY = 0;
+    private float _threshold = 100f;
+
+    #endregion
 
     private void Start()
     {
@@ -38,7 +40,7 @@ public class InfiniteScroll : MonoBehaviour
             items.Add(_scrollRect.content.GetChild(i).GetComponent<RectTransform>());
         }
 
-        _itemCount = _scrollRect.content.childCount;
+        _itemCount = _scrollRect.content.childCount / 2;
     }
 
     private void Init()
@@ -65,7 +67,7 @@ public class InfiniteScroll : MonoBehaviour
         }
     }
 
-    void DisableGridComponents()
+    private void DisableGridComponents()
     {
         if (_isVertical)
         {
