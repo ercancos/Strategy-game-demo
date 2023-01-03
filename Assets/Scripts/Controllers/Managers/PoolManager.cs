@@ -71,7 +71,7 @@ public class PoolManager : MonoBehaviour
         return troopObject;
     }
 
-    //This function recycles the given object and puts it back in the pool.
+    //This function recycles the given object(if it is exist) and puts it back in the pool.
     public void RecycleObject(GameObject obj)
     {
         if (obj != null)
@@ -89,10 +89,6 @@ public class PoolManager : MonoBehaviour
                 Debug.LogWarning("Object could not identify. obj will be destroyed !");
                 Destroy(obj);
             }
-        }
-        else
-        {
-            Debug.LogError("Recycle operation could not complete. obj is null !");
         }
     }
 

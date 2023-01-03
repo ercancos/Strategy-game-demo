@@ -54,9 +54,12 @@ public class StructureBuildController : MonoBehaviour
 
     private void CancelBuild()
     {
-        Debug.Log("Built canceled !");
-        PoolManager.Instance.RecycleObject(_structure);
-        _structure = null;
+        if (_structure != null)
+        {
+            Debug.Log("Built canceled !");
+            PoolManager.Instance.RecycleObject(_structure);
+            _structure = null;
+        }
     }
 
     private void DragStructure(Vector3 currentMousePos)

@@ -16,6 +16,7 @@ public class PlayerInteractionController : MonoBehaviour
     public delegate void OnLeftClick(Vector3 currentPos);
     public static event OnLeftClick OnLeftClickAction;
     public static event OnLeftClick OnLeftClickReleaseAction;
+    public static event OnLeftClick OnLeftClickHoldPressedAction;
 
     public delegate void OnRightClick();
     public static event OnRightClick OnRightClickAction;
@@ -32,6 +33,11 @@ public class PlayerInteractionController : MonoBehaviour
     private Vector2 _previousMousePosition;
 
     #endregion
+
+    public static Vector2 GetMousePosition()
+    {
+        return Input.mousePosition;
+    }
 
     public Vector2 GetLatestMousePos()
     {
@@ -84,7 +90,16 @@ public class PlayerInteractionController : MonoBehaviour
             }
         }
 
-        // Check if middle mouse button(scroll) pressed.
+        // Check if left mouse button hold pressed.
+        if (Input.GetMouseButton(0))
+        {
+            if (OnLeftClickHoldPressedAction != null)
+            {
+                OnLeftClickHoldPressedAction(Input.mousePosition);
+            }
+        }
+
+        // Check if left mouse button pressed.
         if (Input.GetMouseButtonDown(0))
         {
             if (OnLeftClickAction != null)
@@ -93,7 +108,7 @@ public class PlayerInteractionController : MonoBehaviour
             }
         }
 
-        // Check if middle mouse button(scroll) released.
+        // Check if left mouse button released.
         if (Input.GetMouseButtonUp(0))
         {
             if (OnLeftClickReleaseAction != null)
@@ -102,7 +117,7 @@ public class PlayerInteractionController : MonoBehaviour
             }
         }
 
-        // Check if middle mouse button(scroll) pressed.
+        // Check if right mouse button pressed.
         if (Input.GetMouseButtonDown(1))
         {
             if (OnRightClickAction != null)
