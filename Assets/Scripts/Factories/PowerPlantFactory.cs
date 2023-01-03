@@ -24,8 +24,8 @@ public class PowerPlantFactory : Factory
         //Get collider upper bound.
         Bounds bounds = createdObject.GetComponent<BoxCollider2D>().bounds;
 
-        //Add text object.
-        AddTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 6.8f)), createdObject);
+        //Create text object as child.
+        CreateTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 6.8f)), createdObject);
 
         //Add Barrack component to the object.
         createdObject.AddComponent<PowerPlant>();
@@ -79,7 +79,7 @@ public class PowerPlantFactory : Factory
         obj.transform.localScale = new Vector3(objectData.GetWidth, objectData.GetHeight, 1);
     }
 
-    protected override void AddTextObject(Vector2 pos, GameObject parentObject)
+    protected override void CreateTextObject(Vector2 pos, GameObject parentObject)
     {
         //Add text component.
         GameObject textObject = new GameObject("Text");

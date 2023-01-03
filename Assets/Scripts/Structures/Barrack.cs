@@ -41,7 +41,7 @@ public class Barrack : Structure
         yield return new WaitForSeconds(delay);
 
         //Move troop to spawn point.
-        obj.GetComponent<Troop>().Move(_spawnPoint);
+        obj.GetComponent<Troop>().MoveTo(_spawnPoint);
     }
 
     protected override void Start()

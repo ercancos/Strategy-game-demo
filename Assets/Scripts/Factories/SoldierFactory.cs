@@ -31,10 +31,17 @@ public class SoldierFactory : Factory
         AddPathFindingComponents(createdObject);
 
         //Add text object.
-        AddTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 8.8f)), createdObject);
+        CreateTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 8.8f)), createdObject);
 
-        //Add Barrack component to the object.
-        createdObject.AddComponent<Soldier>();
+        //Add selected-outline object.
+        CreateSelectedOutlineObject(createdObject);
+
+        //Add target object.
+        GameObject targetGameObject = CreateTargetPositionObject();
+
+        //Add Soldier component to the object.
+        Soldier soldier = createdObject.AddComponent<Soldier>();
+        soldier.SetTargetObject(targetGameObject);
 
         return createdObject;
     }
@@ -86,7 +93,7 @@ public class SoldierFactory : Factory
         obj.transform.localScale = new Vector3(objectData.GetWidth, objectData.GetHeight, 1);
     }
 
-    protected override void AddTextObject(Vector2 pos, GameObject parentObject)
+    protected override void CreateTextObject(Vector2 pos, GameObject parentObject)
     {
         //Add text component.
         GameObject textObject = new GameObject("Text");
@@ -96,6 +103,35 @@ public class SoldierFactory : Factory
         //Set object position to top of parent object.
         textObject.transform.parent = parentObject.transform;
         textObject.transform.position = pos;
+    }
+
+    //Creates selected-outline gameObject.
+    private void CreateSelectedOutlineObject(GameObject obj)
+    {
+        //Create a new gameobject.
+        GameObject createdObject = new GameObject("SelectedOutline");
+        createdObject.transform.parent = obj.transform;
+
+        SpriteRenderer spriteRenderer = createdObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = ((SoldierSO)objectData).SelectedOutline;
+        spriteRenderer.color = Color.green;
+
+        createdObject.SetActive(false);
+    }
+
+    //Creates target-position gameObject.
+    private GameObject CreateTargetPositionObject()
+    {
+        //Create a new gameobject.
+        GameObject createdObject = new GameObject("TargetPosition");
+
+        SpriteRenderer spriteRenderer = createdObject.AddComponent<SpriteRenderer>();
+        spriteRenderer.sprite = ((SoldierSO)objectData).TargetPosition;
+        spriteRenderer.color = Color.red;
+
+        createdObject.SetActive(false);
+
+        return createdObject;
     }
 
     private void AddPathFindingComponents(GameObject obj)
