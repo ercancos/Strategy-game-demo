@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 
+ * This script is responsible for control build operations of given structures.
+ * 
+ */
+
 public class StructureBuildController : MonoBehaviour
 {
     #region Variables
@@ -11,7 +17,6 @@ public class StructureBuildController : MonoBehaviour
     public delegate void OnStructureBuild();
     public static event OnStructureBuild OnStructureBuildAction;
 
-    private bool _isStructureBuild = false;
     private GameObject _structure;
     private SpriteRenderer _structureSpriteRenderer;
     private Structure _structureBaseClass;
@@ -39,6 +44,7 @@ public class StructureBuildController : MonoBehaviour
 
     private void OnEnable()
     {
+        //Subscribe events.
         PlayerInteractionController.OnRightClickAction += CancelBuild;
         PlayerInteractionController.OnLeftClickAction += BuildStructure;
         PlayerInteractionController.OnMouseMoveAction += DragStructure;
@@ -46,12 +52,14 @@ public class StructureBuildController : MonoBehaviour
 
     private void OnDestroy()
     {
+        //Unsubscribe events.
         PlayerInteractionController.OnRightClickAction -= CancelBuild;
         PlayerInteractionController.OnLeftClickAction -= BuildStructure;
         PlayerInteractionController.OnMouseMoveAction -= DragStructure;
 
     }
 
+    //It cancels build operation.
     private void CancelBuild()
     {
         if (_structure != null)
@@ -62,6 +70,7 @@ public class StructureBuildController : MonoBehaviour
         }
     }
 
+    //It drags current assigned structure, if exist.
     private void DragStructure(Vector3 currentMousePos)
     {
         if (_structure != null)
@@ -84,6 +93,7 @@ public class StructureBuildController : MonoBehaviour
         }
     }
 
+    //It builds current assigned structure, if exist.
     private void BuildStructure(Vector3 currentMousePos)
     {
         if (_structure != null)
@@ -110,6 +120,7 @@ public class StructureBuildController : MonoBehaviour
         }
     }
 
+    //Checks the area is valid for construction.
     private bool IsValidConstructionArea()
     {
         if (_structureBaseClass != null)
