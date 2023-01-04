@@ -24,13 +24,14 @@ public class CameraController : MonoBehaviour
     private int maxZoomOutValue = 24;
 
     private float _defaultCameraSize;
+    private Vector2 _previousMousePosition;
 
     #endregion
 
     private void OnEnable()
     {
         //Subscribe events.
-        PlayerInteractionController.OnMouseMoveAction += MoveCamera;
+        PlayerInteractionController.OnMouseMoveAction += UpdateLatestMousePosition;
         PlayerInteractionController.OnClickScrollAction += ResetCameraSize;
         PlayerInteractionController.OnMouseScrollMoveAction += ZoomCamera;
     }
@@ -40,10 +41,15 @@ public class CameraController : MonoBehaviour
         _defaultCameraSize = Camera.main.orthographicSize; ;
     }
 
+    private void Update()
+    {
+        MoveCamera();
+    }
+
     private void OnDestroy()
     {
         //Unsubscribe events.
-        PlayerInteractionController.OnMouseMoveAction -= MoveCamera;
+        PlayerInteractionController.OnMouseMoveAction -= UpdateLatestMousePosition;
         PlayerInteractionController.OnClickScrollAction -= ResetCameraSize;
         PlayerInteractionController.OnMouseScrollMoveAction -= ZoomCamera;
     }
@@ -77,29 +83,34 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    private void UpdateLatestMousePosition(Vector3 currentMousePos)
+    {
+        _previousMousePosition = currentMousePos;
+    }
+
     //This function moves camera according to player interaction.
-    private void MoveCamera(Vector3 currentMousePos)
+    private void MoveCamera()
     {
         //If y axis of mouse position is bigger than the border value than camera will be move accordingly. 
-        if (Input.mousePosition.y >= Screen.height - borderValue)
+        if (_previousMousePosition.y >= Screen.height - borderValue)
         {
             MoveCameraYAxis(Vector2Int.up);
         }
 
         //If y axis of mouse position is less than the border value than camera will be move accordingly. 
-        if (Input.mousePosition.y <= borderValue)
+        if (_previousMousePosition.y <= borderValue)
         {
             MoveCameraYAxis(Vector2Int.down);
         }
 
         //If x axis of mouse position is bigger than the border value than camera will be move accordingly. 
-        if (Input.mousePosition.x >= Screen.width - borderValue)
+        if (_previousMousePosition.x >= Screen.width - borderValue)
         {
             MoveCameraXAxis(Vector2Int.right);
         }
 
         //If x axis of mouse position is less than the border value than camera will be move accordingly. 
-        if (currentMousePos.x <= borderValue)
+        if (_previousMousePosition.x <= borderValue)
         {
             MoveCameraXAxis(Vector2Int.left);
         }
