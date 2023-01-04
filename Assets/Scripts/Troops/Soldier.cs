@@ -49,6 +49,7 @@ public class Soldier : Troop
 
         //Get text object.
         _textObject = transform.GetChild(0).gameObject;
+        _textObject.SetActive(false);
 
         //Get selected-outline object.
         _selectedOutlineGameObject = transform.GetChild(1).gameObject;

@@ -17,6 +17,8 @@ public abstract class Factory : MonoBehaviour
 
     #endregion
 
+    public PlacedObjectDataSO ObjectData { get => objectData; }
+
     //Create a structure depending on the concrete-class factory implementation.
     public abstract GameObject CreateObject(Vector2 pos);
 

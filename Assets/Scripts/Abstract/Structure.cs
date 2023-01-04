@@ -23,6 +23,7 @@ public abstract class Structure : MonoBehaviour
     protected virtual void Start()
     {
         _textObject = transform.GetChild(0).gameObject;
+        _textObject.SetActive(false);
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)

@@ -36,7 +36,11 @@ public abstract class Troop : MonoBehaviour, IDamageable
         _targetPositionGameObject.SetActive(visible);
     }
 
-    protected abstract void Start();
+    protected virtual void Start()
+    {
+        _textObject = transform.GetChild(0).gameObject;
+        _textObject.SetActive(false);
+    }
 
     protected virtual void OnMouseEnter()
     {

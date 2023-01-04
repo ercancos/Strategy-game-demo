@@ -3,6 +3,17 @@ using UnityEngine;
 
 public class BarrackFactory : Factory
 {
+    #region Variables
+
+    [SerializeField]
+    [Tooltip("Spawnable troop data object that includes all of sprites, object name, dimensions and so on.")]
+    private PlacedObjectDataSO spawnableTroopData;
+
+    #endregion
+
+    public PlacedObjectDataSO SpawnableTroopData { get => spawnableTroopData; }
+
+    //Creates barrack object.
     public override GameObject CreateObject(Vector2 pos)
     {
         //Create a new gameobject.
@@ -30,7 +41,9 @@ public class BarrackFactory : Factory
         CreateSpawnPointObject(createdObject);
 
         //Add Barrack component to the object.
-        createdObject.AddComponent<Barrack>();
+        Barrack barrack = createdObject.AddComponent<Barrack>();
+        //Set spawnable troop data.
+        barrack.SpawnableTroopData = spawnableTroopData;
 
         return createdObject;
     }

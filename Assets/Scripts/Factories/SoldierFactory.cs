@@ -7,6 +7,7 @@ using Pathfinding;
 
 public class SoldierFactory : Factory
 {
+    //Creates soldier object.
     public override GameObject CreateObject(Vector2 pos)
     {
         //Create a new gameobject.
@@ -31,7 +32,7 @@ public class SoldierFactory : Factory
         AddPathFindingComponents(createdObject);
 
         //Add text object.
-        CreateTextObject(new Vector2((bounds.min.x - bounds.extents.x * 4.2f), (bounds.max.y * 8.8f)), createdObject);
+        CreateTextObject(new Vector2((bounds.min.x - bounds.extents.x * 2.2f), (bounds.max.y * 2.4f)), createdObject);
 
         //Add selected-outline object.
         CreateSelectedOutlineObject(createdObject);
@@ -99,6 +100,7 @@ public class SoldierFactory : Factory
         GameObject textObject = new GameObject("Text");
         TextMesh textObjectTextMesh = textObject.AddComponent<TextMesh>();
         textObjectTextMesh.text = objectData.GetName;
+        textObjectTextMesh.fontSize = 8;
 
         //Set object position to top of parent object.
         textObject.transform.parent = parentObject.transform;

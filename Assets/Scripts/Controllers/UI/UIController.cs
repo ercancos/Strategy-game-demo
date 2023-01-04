@@ -137,7 +137,8 @@ public class UIController : MonoBehaviour
             if (troopType is Soldier)
             {
                 SetStateSelectedObjectTroopButton(false);
-                Debug.Log("Soldier");
+                AssignText("Soldier");
+                AssignSprite(obj.GetComponent<SpriteRenderer>().sprite);
             }
             else
             {
@@ -165,12 +166,16 @@ public class UIController : MonoBehaviour
     {
         if (barrack != null)
         {
+            //Add listener to button.
             Button button = selectedObjectTroopButton.GetComponent<Button>();
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(barrack.SpawnUnit);
+
+            //Change sprite of button.
+            Image image = selectedObjectTroopButton.GetComponent<Image>();
+            image.sprite = barrack.SpawnableTroopData.GetSprite;
         }
     }
-
 
     private void SetStateSelectedObjectTroopButton(bool state)
     {

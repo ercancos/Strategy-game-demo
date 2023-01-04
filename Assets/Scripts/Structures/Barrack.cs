@@ -7,18 +7,23 @@ public class Barrack : Structure
     #region Variables
 
     private Transform _spawnPoint;
+    private PlacedObjectDataSO spawnableTroopData;
 
     #endregion
 
+    public PlacedObjectDataSO SpawnableTroopData { get => spawnableTroopData; set => spawnableTroopData = value; }
+
+    //Returns structure type.
     public override StructureType GetStructureType()
     {
         return StructureType.Military;
     }
 
+    //Spawns a unit by using pool manager.
     public void SpawnUnit()
     {
         //Get a troop from pool manager.
-        GameObject troopObject = PoolManager.Instance.GetTroopObject("SoldierType1");
+        GameObject troopObject = PoolManager.Instance.GetTroopObject(spawnableTroopData.GetName);
 
         if (troopObject != null)
         {
@@ -35,6 +40,7 @@ public class Barrack : Structure
         }
     }
 
+    //Moves given object after given delay.
     private IEnumerator DelayedMove(GameObject obj, float delay)
     {
         //Wait for given delay.
@@ -46,7 +52,11 @@ public class Barrack : Structure
 
     protected override void Start()
     {
+        //Get text object.
         _textObject = transform.GetChild(0).gameObject;
+        _textObject.SetActive(false);
+
+        //Get spawn-point object.
         _spawnPoint = transform.GetChild(1);
     }
 }

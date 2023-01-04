@@ -18,9 +18,14 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    public void UpdateAStar()
+    {
+        astarPath.Scan();
+    }
+
     public void CreateBarrack()
     {
-        StructureBuildController.Instance.TakeStructureToBuilt(PoolManager.Instance.GetStructureObject("BarrackType1"));
+        StructureBuildController.Instance.TakeStructureToBuilt(PoolManager.Instance.GetStructureObject("Barrack"));
     }
 
     public void CreatePowerPlant()
@@ -49,10 +54,4 @@ public class GameManager : MonoBehaviour
     {
         StructureBuildController.OnStructureBuildAction -= UpdateAStar;
     }
-
-    private void UpdateAStar()
-    {
-        astarPath.Scan();
-    }
-
 }

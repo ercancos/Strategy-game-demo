@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*
  * 
- * 
+ * This script is responsible for management of pool system.
  * 
  */
 
@@ -36,11 +36,13 @@ public class PoolManager : MonoBehaviour
 
         if (_structurePoolDictionary[tag].Count <= 0)
         {
-            if (tag == "BarrackType1")
+            string barrackTag = barrackFactory.ObjectData.GetName;
+            string powerPlantTag = powerplantFactory.ObjectData.GetName;
+            if (tag == barrackTag)
             {
-                SpawnBarrackType1();
+                SpawnBarrack();
             }
-            else if (tag == "PowerPlant")
+            else if (tag == powerPlantTag)
             {
                 SpawnPowerPlant();
             }
@@ -63,7 +65,7 @@ public class PoolManager : MonoBehaviour
 
         if (_troopPoolDictionary[tag].Count <= 0)
         {
-            SpawnSoldierType1();
+            SpawnSoldier();
         }
 
         GameObject troopObject = _troopPoolDictionary[tag].Dequeue();
@@ -114,44 +116,50 @@ public class PoolManager : MonoBehaviour
     private void Initialize()
     {
         //Generate relevant type of structures.
+        string barrackTag = barrackFactory.ObjectData.GetName;
         Queue<GameObject> objectPool = new Queue<GameObject>();
-        _structurePoolDictionary.Add("BarrackType1", objectPool);
+        _structurePoolDictionary.Add(barrackTag, objectPool);
 
+        string powerPlantTag = powerplantFactory.ObjectData.GetName;
         objectPool = new Queue<GameObject>();
-        _structurePoolDictionary.Add("PowerPlant", objectPool);
+        _structurePoolDictionary.Add(powerPlantTag, objectPool);
 
         //Generate relevant type of troops.
+        string soldierTag = ((BarrackFactory)barrackFactory).SpawnableTroopData.GetName;
         objectPool = new Queue<GameObject>();
-        _troopPoolDictionary.Add("SoldierType1", objectPool);
+        _troopPoolDictionary.Add(soldierTag, objectPool);
 
 
         for (int i = 0; i < initiallySpawnedObjectNumber; i++)
         {
-            SpawnBarrackType1();
+            SpawnBarrack();
             SpawnPowerPlant();
-            SpawnSoldierType1();
+            SpawnSoldier();
         }
     }
 
-    private void SpawnBarrackType1()
+    private void SpawnBarrack()
     {
         GameObject createdStructure = barrackFactory.CreateObject(Vector3.zero);
         createdStructure.SetActive(false);
-        _structurePoolDictionary["BarrackType1"].Enqueue(createdStructure);
+        string barrackTag = barrackFactory.ObjectData.GetName;
+        _structurePoolDictionary[barrackTag].Enqueue(createdStructure);
     }
 
     private void SpawnPowerPlant()
     {
         GameObject createdStructure = powerplantFactory.CreateObject(Vector3.zero);
         createdStructure.SetActive(false);
-        _structurePoolDictionary["PowerPlant"].Enqueue(createdStructure);
+        string powerPlantTag = powerplantFactory.ObjectData.GetName;
+        _structurePoolDictionary[powerPlantTag].Enqueue(createdStructure);
     }
 
-    private void SpawnSoldierType1()
+    private void SpawnSoldier()
     {
         GameObject createdStructure = soldierFactory.CreateObject(Vector3.zero);
         createdStructure.SetActive(false);
-        _troopPoolDictionary["SoldierType1"].Enqueue(createdStructure);
+        string soldierTag = ((BarrackFactory)barrackFactory).SpawnableTroopData.GetName;
+        _troopPoolDictionary[soldierTag].Enqueue(createdStructure);
     }
 
     private void RecycleStructure(GameObject obj)
@@ -163,13 +171,15 @@ public class PoolManager : MonoBehaviour
             {
                 obj.SetActive(false);
                 obj.transform.position = Vector3.zero;
-                _structurePoolDictionary["BarrackType1"].Enqueue(obj);
+                string barrackTag = barrackFactory.ObjectData.GetName;
+                _structurePoolDictionary[barrackTag].Enqueue(obj);
             }
             else if (structureType is PowerPlant)
             {
                 obj.SetActive(false);
                 obj.transform.position = Vector3.zero;
-                _structurePoolDictionary["PowerPlant"].Enqueue(obj);
+                string powerPlantTag = powerplantFactory.ObjectData.GetName;
+                _structurePoolDictionary[powerPlantTag].Enqueue(obj);
             }
             else
             {
@@ -186,7 +196,8 @@ public class PoolManager : MonoBehaviour
         {
             obj.SetActive(false);
             obj.transform.position = Vector3.zero;
-            _troopPoolDictionary["SoldierType1"].Enqueue(obj);
+            string soldierTag = ((BarrackFactory)barrackFactory).SpawnableTroopData.GetName;
+            _troopPoolDictionary[soldierTag].Enqueue(obj);
         }
         else
         {

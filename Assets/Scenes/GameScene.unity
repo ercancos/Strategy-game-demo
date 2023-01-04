@@ -105526,7 +105526,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 43
-    m_Alignment: 4
+    m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -106229,6 +106229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectData: {fileID: 11400000, guid: 2d234dfe857bf074e971509dff0e9832, type: 2}
+  spawnableTroopData: {fileID: 11400000, guid: b8ddf7f48a91a4d4388e5658f7c3f716, type: 2}
 --- !u!1 &100031743496805956
 GameObject:
   m_ObjectHideFlags: 0
